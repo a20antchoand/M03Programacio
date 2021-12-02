@@ -34,43 +34,68 @@ public class Taulell {
 	
 	public void repartirMa(List<Carta> baralla) throws Exception {
 		
-		List<Carta> ma = new ArrayList<>();
+		List<Carta> maActual = new ArrayList<>();
 		
 		if (jugadors.size() == 3 || jugadors.size() == 4) {	
+			
 			for (Jugador j : jugadors) {
-				for (int i = 0; i < Carta.numCartes34; i++) {
-					ma.add(baralla.get(baralla.size()-1));
+				
+				for (int i = 0; i < 5; i++) {
+					
+					maActual.add(baralla.get(baralla.size()-1));
 					baralla.remove(baralla.size()-1);
+					
 				}
-				j.setMa(ma);
+				
+				j.setMa(maActual);
+				System.out.println(j.getNom() + " " + j.getMa().size());
+				maActual.removeAll(maActual);
+				
 			}
+			
 		} else if (jugadors.size() == 5 || jugadors.size() == 6) {
+			
 			for (Jugador j : jugadors) {
-				for (int i = 0; i < Carta.numCartes56; i++) {
-					ma.add(baralla.get(baralla.size()-1));
+				
+				for (int i = 0; i < 6; i++) {
+					
+					maActual.add(baralla.get(baralla.size()-1));
 					baralla.remove(baralla.size()-1);
+					
 				}
-				j.setMa(ma);
+				
+				j.setMa(maActual);
+				System.out.println(j.getNom() + " " + j.getMa().size());
+				maActual.removeAll(maActual);
+				
 			}
+			
 		} else {
+			
 			throw new Exception ("Numero de jugadors incorrectes.");
+			
 		}
-		
 	}
 	
 	public void mostrarMa (int idJugador) {
 		
-		List<Carta> ma;
-		
 		for (Jugador j : jugadors) {
+			
 			if (j.getId() == idJugador) {
-				ma = j.getMa();
+				
 				System.out.println("\nCartes de: " + j.getNom());
-				for (int i = 0; i < ma.size(); i++) {
-					System.out.println(ma.get(i).toString());
+				System.out.println(j.getMa().size());
+				
+				for (int i = 0; i < j.getMa().size(); i++) {
+					
+					System.out.println(j.getMa().get(i).toString());
+					
 				}
+				
 			}
+			
 		}
+		
 	}
 	
 	public boolean validarCartaOpcio(Jugador j, int numCarta, int numOpcio) throws Exception {
@@ -80,49 +105,68 @@ public class Taulell {
 		boolean resultat = false;
 		
 		for (Carta carta : j.getMa()) {
+			
 			if (carta.getNumCarta() == numCarta && !cartaValidar) {
+				
 				cartaValidar = true;
+				
 			}
 		}
 		
 		if (cartaValidar) {
+			
 			if (numOpcio >= 0 && numOpcio < Carta.numeroOpcions) {
+				
 					opcioValidar = true;
+					
 			} else {
+				
 				System.out.println("Opcio no valida");
+				
 			}
 		}
 		
 	
 		if (cartaValidar && opcioValidar) {
+			
 			resultat = true;
 			mostrarOpcio(j, numCarta, numOpcio);
+			
 		} else {
+			
 			System.out.println("Alguna de les dades no es valida");
+			
 		}
 		
 		return resultat;
 	}
 	
 	public void mostrarOpcio(Jugador j, int numCarta, int numOpcio) {
-		List<Carta> maAux;
+		
 		List<Carta> ma = j.getMa();
+		Carta cartaEliminar = null;
+		
 		for (Carta carta : ma) {
+			
 			if (carta.getNumCarta() == numCarta) {
 				
 				System.out.println("Opcio: " + carta.getOpcions()[numOpcio-1]);
-				maAux = ma;
-				maAux.remove(carta);
-				j.setMa(maAux);
+				cartaEliminar = carta;
 				
 			}
 		}
+		
+		j.getMa().remove(cartaEliminar);
+		j.setMa(ma);
+		
 	}
 	
 	public void moureJugador (Jugador jugador, int moviments) throws Exception {
 		
 		if (moviments != 1 && moviments != 2 && moviments != -1 && moviments != -2) {
+			
 			throw new Exception("Numero de moviments incorrecte.");
+			
 		}	
 	
 		int posActual = jugador.getPos();
@@ -131,7 +175,7 @@ public class Taulell {
 		if (posFinal > 0 && posFinal < longitud) {
 			jugador.setPos(posFinal);
 		} else if (posFinal == longitud) {
-			Apolcalipsis.guanyador = jugador;
+			Apocalipsis.guanyador = jugador;
 		}
 		
 	}

@@ -33,7 +33,7 @@ import java.util.Scanner;
  * 
  * */
 
-public class Apolcalipsis {
+public class Apocalipsis {
 
 	final static int numRondes = 3;
 	
@@ -46,7 +46,7 @@ public class Apolcalipsis {
 
 	public static void main(String[] args) throws Exception {
 
-		Apolcalipsis joc = new Apolcalipsis();
+		Apocalipsis joc = new Apocalipsis();
 		Jugador[] jugadors;
 
 		while (joc.taulell == null) {
