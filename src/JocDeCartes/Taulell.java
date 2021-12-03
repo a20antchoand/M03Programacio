@@ -7,7 +7,7 @@ public class Taulell {
 	
 	// ATRIBUTS FINALS
 	
-	public final int LONGITUD = 30; 
+	public final int LONGITUD = 2; 
 	public final int CASELLAESPECIAL = 10;
 	public final int ESPECIAL = 2;
 	
@@ -272,6 +272,31 @@ public class Taulell {
 	}
 	
 	/*
+	 * COMPROVAR POSICIO JUGADOR
+	 * 
+	 * */
+	
+	public boolean comprovarPosicio(Jugador jugador) {
+		
+		return false;
+	}
+	
+	/*
+	 * COMPROVAR SI HI HA GUANYADOR
+	 * 
+	 * */
+	
+	public boolean guanyador() {
+		for (Jugador j : jugadors) {
+			if (j.getPos() == (LONGITUD-1)) {
+				System.out.println(j.getPos() + "/" + (LONGITUD-1));
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/*
 	 * TO STRING
 	 * 
 	 * */
@@ -308,5 +333,6 @@ public class Taulell {
 
 		return resultat.toString();
 	}
+
 	
 }
