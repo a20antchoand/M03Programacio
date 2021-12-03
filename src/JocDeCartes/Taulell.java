@@ -7,8 +7,8 @@ public class Taulell {
 	
 	// ATRIBUTS FINALS
 	
-	public final int LONGITUD = 2; 
-	public final int CASELLAESPECIAL = 10;
+	public final int LONGITUD = 10; 
+	public final int CASELLAESPECIAL = 5;
 	public final int ESPECIAL = 2;
 	
 	// ATRIBUTS ESTATICS
