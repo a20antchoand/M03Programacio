@@ -6,15 +6,15 @@ public class Jugador {
 
 	private final int vidasEstandard = 5;
 		
+	private String nom;
+	private List<Carta> ma;
 	private int pos = 0;
 	private int id;
-	private String nom;
-	private int vidas;
-	private List<Carta> ma;
+	private int vides;
 	
 	public Jugador(String nom) {
 		this.nom = nom;
-		this.vidas = vidasEstandard;
+		this.vides = vidasEstandard;
 		this.id = Taulell.idJugador++;
 	}
 	
@@ -22,8 +22,8 @@ public class Jugador {
 		return nom;
 	}
 	
-	public int getVidas () {
-		return vidas;
+	public int getVides () {
+		return vides;
 	}
 	
 	public int getPos () {
@@ -50,16 +50,12 @@ public class Jugador {
 		this.pos = pos;
 	}
 	
-	public void sumarVida (int numero) {
-		this.vidas += numero;
-	}
-	
-	public void restaVida (int numero) {
-		this.vidas -= numero;
+	public void setVides (int vides) {
+		this.vides = vides;
 	}
 	
 	@Override
 	public String toString () {
-		return "Nom: " + nom + " / Vidas: " + vidas;
+		return "Nom: " + nom + " / Vidas: " + vides;
 	}
 }

@@ -15,10 +15,13 @@ public class Carta {
 	final static int numCartes = 46;
 	final static int numCartes34 = 6;
 	final static int numCartes56 = 5;
-
+	
+	public static tipusMoviment opcio;
+	
 	private int numCarta;
 	private tipusMoviment[] opcions;
 	private boolean isEspecial;
+	
 
 	private Carta(int numCarta, tipusMoviment[] opcions, boolean isEspecial) {
 		this.numCarta = numCarta;
