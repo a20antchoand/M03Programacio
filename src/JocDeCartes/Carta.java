@@ -7,28 +7,41 @@ import java.util.Random;
 
 public class Carta {
 
+	// ENUM
+	
 	enum tipusMoviment {
 		SUMAVIDA, RESTAVIDA, MOUENDEVANT, MOUENRRERA
 	};
 
+	// ATRIBUTS FINALS
+	
 	final static int numeroOpcions = 4;
 	final static int numCartes = 46;
 	final static int numCartes34 = 6;
 	final static int numCartes56 = 5;
 	
-	public static tipusMoviment opcio;
+	//ATRIBUTS CARTA
 	
 	private int numCarta;
 	private tipusMoviment[] opcions;
 	private boolean isEspecial;
 	
-
+	/*
+	 * INICIALITZEM LA CARTA 
+	 * 
+	 * */
+	
 	private Carta(int numCarta, tipusMoviment[] opcions, boolean isEspecial) {
 		this.numCarta = numCarta;
 		this.opcions = opcions;
 		this.isEspecial = isEspecial;
 	}
 
+	/*
+	 * GENEREM LA BARALLA 
+	 * 
+	 * */
+	
 	public static List<Carta> generarBaralla() {
 
 		List<Carta> baralla = new ArrayList<>();
@@ -59,6 +72,11 @@ public class Carta {
 
 	}
 
+	/*
+	 * GETTERS 
+	 * 
+	 * */
+	
 	public int getNumCarta() {
 		return numCarta;
 	}
@@ -71,6 +89,11 @@ public class Carta {
 		return isEspecial;
 	}
 
+	/*
+	 * TO STRING 
+	 * 
+	 * */
+	
 	public String toString() {
 
 		StringBuilder resultat = new StringBuilder();

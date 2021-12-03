@@ -4,13 +4,22 @@ import java.util.List;
 
 public class Jugador {
 
+	// ATRIBUT FINAL
+	
 	private final int vidasEstandard = 5;
-		
+	
+	// ATRIBUTS JUGADOR
+	
 	private String nom;
 	private List<Carta> ma;
 	private int pos = 0;
 	private int id;
 	private int vides;
+	
+	/*
+	 * INICIALITZAR JUGADOR
+	 * 
+	 * */
 	
 	public Jugador(String nom) {
 		this.nom = nom;
@@ -18,32 +27,42 @@ public class Jugador {
 		this.id = Taulell.idJugador++;
 	}
 	
+	/*
+	 * GETTERS
+	 * 
+	 * */
+	
 	public String getNom () {
 		return nom;
-	}
-	
-	public int getVides () {
-		return vides;
-	}
-	
-	public int getPos () {
-		return pos;
 	}
 	
 	public List<Carta> getMa () {
 		return ma;
 	}
 	
+	public int getPos () {
+		return pos;
+	}
+
 	public int getId () {
 		return id;
 	}
 	
-	public void setMa (List<Carta> ma) {
-		this.ma = ma;
+	public int getVides () {
+		return vides;
 	}
+	
+	/*
+	 * SETTERS
+	 * 
+	 * */
 	
 	public void setNom(String nom) {
 		this.nom = nom;
+	}
+	
+	public void setMa (List<Carta> ma) {
+		this.ma = ma;
 	}
 	
 	public void setPos(int pos) {
@@ -53,6 +72,11 @@ public class Jugador {
 	public void setVides (int vides) {
 		this.vides = vides;
 	}
+	
+	/*
+	 * TO STRING
+	 * 
+	 * */
 	
 	@Override
 	public String toString () {

@@ -6,47 +6,70 @@ import java.util.Scanner;
 /*
  * APOCALIPSIS BY: TONI
  * DATA:           02/12/2021
- * PROFESOR:	   ABEL SUS�N	
+ * PROFESOR:	   ABEL SUSIN	
  * 
  * Joc de cartes per fugir de l'apocalipsis, regles:
  * 		- de 3 a 6 jugadors
  * 		- 3-4 jugadors = 6 cartes per jugador
  * 		- 5-6 jugadors = 5 cartes per jugador
  * 		- Cada carta te 3 opcions +1, -1, ->, <- 
- * 		- Jugadors inicialment tenen 6 vides, poden tenir m�s
+ * 		- Jugadors inicialment tenen 6 vides, poden tenir mes
  * 		- Casella 15 mou 5 caselles endevant o enrrera un jugador
  * 		- Carta normal valor per 1
  * 		- Carta especial valor per 2
  * 		- 3 rondes
  * 		- Guanya qui arriba primer al final
- * 		- Guanya en cas d'acabar les rondes el jugador mes avan�at
+ * 		- Guanya en cas d'acabar les rondes el jugador mes avancat
  * 		- Guanya si queda sol al taulell
  * 
  * */
 
-/* +==+ Agafar l'opci� de la carta +==+
+/* +==+ Agafar l'opcio de la carta +==+
  * 
  * System.out.println("Carta 0 - op 0: " + j.getMa()[0].getOpcions()[0]);				
- * System.out.println("Carta 0 - op 1: " + j.getMa()[0].getOpcions()[1]);
- * System.out.println("Carta 0 - op 2: " + j.getMa()[0].getOpcions()[2]);
  * 
  * */
 
 public class Apocalipsis {
-
+	
+	// ATRBUTS FINALS
+	
 	final static int numRondes = 3;
 
+	// SCANNERS
+	
 	static Scanner sStr = new Scanner(System.in);
 	static Scanner sInt = new Scanner(System.in);
 
+	// ATRIBUTS MAIN
+	
 	Taulell taulell;
 	static Jugador guanyador = null;
 
+	/*
+	 * METODE MAIN - INICIEM EL JOC
+	 * 
+	 * */
+	
 	public static void main(String[] args) throws Exception {
 
 		Apocalipsis joc = new Apocalipsis();
 		Jugador[] jugadors;
+		boolean teCartes;
+		char op = 0;
+		int numCarta;
+		int numOpcio;
+		int numeroJugador;
+		Carta cartaJugar = null;
+		Carta.tipusMoviment opcioJugar = null;
+		joc.taulell.baralla = Carta.generarBaralla();
+		joc.taulell.repartirMa(joc.taulell.baralla);
 
+		/*
+		 * OBTENIM ELS JUGADORS I INTENTEM CREAR EL TAULELL
+		 * 
+		 * */
+		
 		while (joc.taulell == null) {
 			jugadors = joc.obtenirJugadors();
 			try {
@@ -57,17 +80,12 @@ public class Apocalipsis {
 			}
 		}
 		
+		/*
+		 * JUGUEM TOTES LES RONDES
+		 * 
+		 * */
+		
 		for (int i = 0 ; i < numRondes ; i++) {
-			
-			boolean teCartes;
-			char op = 0;
-			int numCarta;
-			int numOpcio;
-			int numeroJugador;
-			Carta cartaJugar = null;
-			Carta.tipusMoviment opcioJugar = null;
-			joc.taulell.baralla = Carta.generarBaralla();
-			joc.taulell.repartirMa(joc.taulell.baralla);
 
 			System.out.println("\n\n Ronda numero: " + (i+1) + "\n\n");
 			
@@ -94,7 +112,7 @@ public class Apocalipsis {
 						System.out.print("\nIndica el numero de carta: ");
 						numCarta = sInt.nextInt();
 						
-						System.out.print("Indica la opci�: ");
+						System.out.print("Indica la opcio: ");
 						numOpcio = sInt.nextInt();
 						
 						cartaJugar = joc.taulell.validarCartaOpcio(j, numCarta, numOpcio);
@@ -142,7 +160,11 @@ public class Apocalipsis {
 		
 	}
 
-	@SuppressWarnings("resource")
+	/*
+	 * OBTENIM ELS JUGADORS
+	 * 
+	 * */
+	
 	public Jugador[] obtenirJugadors() {
 
 		Scanner s = new Scanner(System.in);

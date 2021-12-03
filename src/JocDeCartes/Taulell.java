@@ -5,17 +5,17 @@ import java.util.List;
 
 public class Taulell {
 	
-	//ATRIBUTS FINALS
+	// ATRIBUTS FINALS
 	
 	public final int LONGITUD = 30; 
 	public final int CASELLAESPECIAL = 10;
 	public final int ESPECIAL = 2;
 	
-	//ATRIBUTS ESTATICS
+	// ATRIBUTS ESTATICS
 	
 	public static int idJugador = 1;
 	
-	//ATRIBUTS DE TAULELL
+	// ATRIBUTS DE TAULELL
 	
 	public ArrayList<Jugador> jugadors = new ArrayList<>();
 	public int[] primerJugador = new int[LONGITUD]; 
@@ -249,19 +249,27 @@ public class Taulell {
 		
 	}
 	
+	/*
+	 * VALIDAR JUGADOR
+	 * 
+	 * */
 	
 	public boolean validarJugador (int numJugador) {
+		
 		boolean resultat = false;
+		
 		for (Jugador aux : jugadors) {
+			
 			if (aux.getId() == numJugador) {
+				
 				resultat = true;
+				
 			}
 		}
+		
 		return resultat;
+		
 	}
-	
-	
-	
 	
 	/*
 	 * TO STRING
@@ -300,7 +308,5 @@ public class Taulell {
 
 		return resultat.toString();
 	}
-
-
 	
 }
