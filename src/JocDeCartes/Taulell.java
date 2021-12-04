@@ -2,6 +2,7 @@ package JocDeCartes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Taulell {
 	
@@ -104,7 +105,6 @@ public class Taulell {
 			if (j.getId() == idJugador) {
 				
 				System.out.println("\nCartes de: " + j.getNom());
-				System.out.println(j.getMa().size());
 				
 				for (int i = 0; i < j.getMa().size(); i++) {
 					
@@ -187,7 +187,7 @@ public class Taulell {
 	
 	public void moureJugador (int numJugador, int moviments, Carta carta, Carta.tipusMoviment opcio) throws Exception {
 		
-		Jugador jugador = jugadors.get(numJugador-1);
+		Jugador jugador = jugadors.get(numJugador);
 		
 		if (moviments != 1 && moviments != -1) {
 			
@@ -221,7 +221,7 @@ public class Taulell {
 	
 	public void gestionarVides (int numJugador, int vides, Carta carta, Carta.tipusMoviment opcio) throws Exception {
 		
-		Jugador jugador = jugadors.get(numJugador-1);
+		Jugador jugador = jugadors.get(numJugador);
 		
 		if (vides != 1 && vides != -1) {
 			
@@ -237,15 +237,9 @@ public class Taulell {
 			}
 			
 		}
-		
-		int videsActual = jugador.getVides();
-		int videsFinal = videsActual + vides;
 				 
-		if (videsFinal > 0) {
-			jugador.setVides(videsFinal);
-		} else if (videsFinal == 0) {
-			jugadors.remove(jugador);
-		}
+		jugador.setVides((jugador.getVides() + vides));
+
 		
 	}
 	
@@ -278,6 +272,13 @@ public class Taulell {
 	
 	public boolean comprovarPosicio(Jugador jugador) {
 		
+		Scanner s = new Scanner(System.in);
+		int numJugador;
+		
+		if (jugador.getPos() == CASELLAESPECIAL) {
+			return true;
+			
+		}
 		return false;
 	}
 	

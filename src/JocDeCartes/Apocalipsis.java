@@ -100,65 +100,75 @@ public class Apocalipsis {
 					int numCartes;
 					teCartes = true;
 
-					for (Jugador j : joc.taulell.jugadors) {
-						if (!guanyador) {
-							jugador = j;
-							numCartes = j.getMa().size() - 1;
-							System.out.println("\nTorn del jugador: " + j.getNom());
-							System.out.print("\nVols veure les teves cartes?: ");
+					for (int j = 0; j <= (joc.taulell.jugadors.size() - 1); j++) {
+						jugador = joc.taulell.jugadors.get(j);
+						numCartes = jugador.getMa().size() - 1;
+						System.out.println("\nTorn del jugador: " + jugador.getNom());
+						System.out.print("\nVols veure les teves cartes?: ");
 
-							op = sStr.next().charAt(0);
+						op = sStr.next().charAt(0);
 
-							if (op == 's' || op == 'S') {
-								joc.taulell.mostrarMa(j.getId());
-							}
-
-							do {
-
-								System.out.print("\nIndica el numero de carta: ");
-								numCarta = sInt.nextInt();
-
-								System.out.print("Indica la opcio: ");
-								numOpcio = sInt.nextInt();
-
-								cartaJugar = joc.taulell.validarCartaOpcio(j, numCarta, numOpcio);
-
-								if (cartaJugar != null) {
-									opcioJugar = joc.taulell.agafarOpcio(j, cartaJugar, numOpcio);
-								}
-
-							} while (cartaJugar == null);
-
-							do {
-								System.out.println("Indica el numero del jugador: ");
-								numeroJugador = sInt.nextInt();
-							} while (!joc.taulell.validarJugador(jugadors[i].getId()));
-
-							switch (opcioJugar) {
-							case MOUENDEVANT:
-								joc.taulell.moureJugador(numeroJugador, 1, cartaJugar, opcioJugar);
-								break;
-							case MOUENRRERA:
-								joc.taulell.moureJugador(numeroJugador, -1, cartaJugar, opcioJugar);
-								break;
-							case SUMAVIDA:
-								joc.taulell.gestionarVides(numeroJugador, 1, cartaJugar, opcioJugar);
-								break;
-							case RESTAVIDA:
-								joc.taulell.gestionarVides(numeroJugador, -1, cartaJugar, opcioJugar);
-								break;
-							default:
-								throw new IllegalArgumentException("Unexpected value: " + opcioJugar);
-							}
-
-							if (numCartes == 0) {
-								teCartes = false;
-							}
-
-							System.out.println(joc.taulell.toString());
-							guanyador = joc.taulell.guanyador();
+						if (op == 's' || op == 'S') {
+							joc.taulell.mostrarMa(jugador.getId());
 						}
+
+						do {
+
+							System.out.print("\nIndica el numero de carta: ");
+							numCarta = sInt.nextInt();
+
+							System.out.print("Indica la opcio: ");
+							numOpcio = sInt.nextInt();
+
+							cartaJugar = joc.taulell.validarCartaOpcio(jugador, numCarta, numOpcio);
+
+							if (cartaJugar != null) {
+								opcioJugar = joc.taulell.agafarOpcio(jugador, cartaJugar, numOpcio);
+							}
+
+						} while (cartaJugar == null);
+
+						do {
+							System.out.print("Indica el numero del jugador: ");
+							numeroJugador = (sInt.nextInt() - 1);
+						} while (!joc.taulell.validarJugador(jugadors[i].getId()));
+
+						switch (opcioJugar) {
+						case MOUENDEVANT:
+							joc.taulell.moureJugador(numeroJugador, 1, cartaJugar, opcioJugar);
+							break;
+						case MOUENRRERA:
+							joc.taulell.moureJugador(numeroJugador, -1, cartaJugar, opcioJugar);
+							break;
+						case SUMAVIDA:
+							joc.taulell.gestionarVides(numeroJugador, 1, cartaJugar, opcioJugar);
+							break;
+						case RESTAVIDA:
+							joc.taulell.gestionarVides(numeroJugador, -1, cartaJugar, opcioJugar);
+							break;
+						default:
+							throw new IllegalArgumentException("Unexpected value: " + opcioJugar);
+						}
+
+						if (numCartes == 0) {
+							teCartes = false;
+						}
+
+						// Eliminem jugador mort
+
+						if (joc.taulell.jugadors.get(numeroJugador).getVides() <= 0) {
+
+							joc.taulell.jugadors.remove(numeroJugador);
+
+						}
+
+						// Comprovem guanyador
+
+						System.out.println(joc.taulell.toString());
+						guanyador = joc.taulell.guanyador();
+
 					}
+
 				} while (teCartes && !guanyador);
 
 			} else {
