@@ -57,8 +57,7 @@ public class Apocalipsis {
 		Jugador[] jugadors = null;
 
 		boolean teCartes;
-		boolean guanyador = false;
-		char op = 0;
+		Jugador guanyador = null;
 		int numCarta;
 		int numOpcio;
 		int numeroJugador;
@@ -87,10 +86,8 @@ public class Apocalipsis {
 		 */
 
 		for (int i = 0; i < numRondes; i++) {
-
-			if (!guanyador) {
-
-				System.out.println("\n\n Ronda numero: " + (i + 1) + "\n\n");
+			if (guanyador == null && joc.taulell.jugadors.size() != 0) {
+				System.out.println("\n\n !!!!!!!!!!!!!!!!!!!!!!!!Ronda numero: " + (i + 1) + " !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 
 				joc.taulell.baralla = Carta.generarBaralla();
 				joc.taulell.repartirMa(joc.taulell.baralla);
@@ -100,83 +97,129 @@ public class Apocalipsis {
 					int numCartes;
 					teCartes = true;
 
-					for (int j = 0; j <= (joc.taulell.jugadors.size() - 1); j++) {
-						jugador = joc.taulell.jugadors.get(j);
-						numCartes = jugador.getMa().size() - 1;
-						System.out.println("\nTorn del jugador: " + jugador.getNom());
-						System.out.print("\nVols veure les teves cartes?: ");
+					for (int j = 0; j < joc.taulell.jugadors.size(); j++) {
 
-						op = sStr.next().charAt(0);
+						if (guanyador == null && joc.taulell.jugadors.size() != 0) {
+							jugador = joc.taulell.jugadors.get(j);
+							numCartes = jugador.getMa().size() - 1;
+							System.out.println("\nTorn del jugador: " + jugador.getNom());
 
-						if (op == 's' || op == 'S') {
 							joc.taulell.mostrarMa(jugador.getId());
-						}
 
-						do {
+							do {
 
-							System.out.print("\nIndica el numero de carta: ");
-							numCarta = sInt.nextInt();
+								System.out.print("\nIndica el numero de carta: ");
+								numCarta = sInt.nextInt();
 
-							System.out.print("Indica la opcio: ");
-							numOpcio = sInt.nextInt();
+								System.out.print("Indica la opcio: ");
+								numOpcio = sInt.nextInt();
 
-							cartaJugar = joc.taulell.validarCartaOpcio(jugador, numCarta, numOpcio);
+								cartaJugar = joc.taulell.validarCartaOpcio(jugador, numCarta, numOpcio);
 
-							if (cartaJugar != null) {
-								opcioJugar = joc.taulell.agafarOpcio(jugador, cartaJugar, numOpcio);
+								if (cartaJugar != null) {
+									opcioJugar = joc.taulell.agafarOpcio(jugador, cartaJugar, numOpcio);
+								}
+
+							} while (cartaJugar == null);
+
+							do {
+								System.out.print("Indica el numero del jugador: ");
+								numeroJugador = sInt.nextInt();
+								numeroJugador-=1;
+							} while (!joc.taulell.validarJugador(numeroJugador));
+
+							switch (opcioJugar) {
+							case MOUENDEVANT:
+								joc.taulell.moureJugador(numeroJugador, 1, cartaJugar, opcioJugar);
+								break;
+							case MOUENRRERA:
+								joc.taulell.moureJugador(numeroJugador, -1, cartaJugar, opcioJugar);
+								break;
+							case SUMAVIDA:
+								joc.taulell.gestionarVides(numeroJugador, 1, cartaJugar, opcioJugar);
+								break;
+							case RESTAVIDA:
+								joc.taulell.gestionarVides(numeroJugador, -1, cartaJugar, opcioJugar);
+								break;
+							default:
+								throw new IllegalArgumentException("Unexpected value: " + opcioJugar);
 							}
 
-						} while (cartaJugar == null);
+							if (numCartes == 0) {
+								teCartes = false;
+							}
 
-						do {
-							System.out.print("Indica el numero del jugador: ");
-							numeroJugador = (sInt.nextInt() - 1);
-						} while (!joc.taulell.validarJugador(jugadors[i].getId()));
+							// Eliminem jugador mort
 
-						switch (opcioJugar) {
-						case MOUENDEVANT:
-							joc.taulell.moureJugador(numeroJugador, 1, cartaJugar, opcioJugar);
-							break;
-						case MOUENRRERA:
-							joc.taulell.moureJugador(numeroJugador, -1, cartaJugar, opcioJugar);
-							break;
-						case SUMAVIDA:
-							joc.taulell.gestionarVides(numeroJugador, 1, cartaJugar, opcioJugar);
-							break;
-						case RESTAVIDA:
-							joc.taulell.gestionarVides(numeroJugador, -1, cartaJugar, opcioJugar);
-							break;
-						default:
-							throw new IllegalArgumentException("Unexpected value: " + opcioJugar);
+							Jugador eliminar = null;
+							for (Jugador aux : jugadors) {
+								if (aux.getId() == numeroJugador) {
+									eliminar = aux;
+								}
+							}
+							
+							if (eliminar.getVides() <= 0) {
+								System.out.println("\nEl jugador " + eliminar.getNom()
+										+ " ha mort.");
+								joc.taulell.jugadors.remove(eliminar);
+
+							}
+
+							// Comprovem guanyador
+
+							System.out.println(joc.taulell.toString());
+							guanyador = joc.taulell.guanyador();
+							
 						}
-
-						if (numCartes == 0) {
-							teCartes = false;
-						}
-
-						// Eliminem jugador mort
-
-						if (joc.taulell.jugadors.get(numeroJugador).getVides() <= 0) {
-
-							joc.taulell.jugadors.remove(numeroJugador);
-
-						}
-
-						// Comprovem guanyador
-
-						System.out.println(joc.taulell.toString());
-						guanyador = joc.taulell.guanyador();
-
 					}
 
-				} while (teCartes && !guanyador);
+				} while (teCartes && guanyador == null && joc.taulell.jugadors.size() != 0);
 
-			} else {
-				System.out.println("Jugador " + jugador.getNom() + " ha guanyat!");
 			}
-
+			
 		}
-
+		
+		if (guanyador != null) {
+			
+			System.out.println("\nEl jugador " + guanyador.getNom() + " ha guanyat.");
+			
+		} else if (joc.taulell.jugadors.size() == 0) {
+			
+			System.out.println("\nNingun jugador ha aguantat amb vida.");
+			
+		} else {
+			
+			ArrayList<String> primers = new ArrayList<>();
+			int intAux = 0;
+			
+			for (Jugador jAux : joc.taulell.jugadors) {
+				
+				if (jAux.getPos() >= intAux) {
+					
+					intAux = jAux.getPos();
+					primers.add(jAux.getNom());
+					
+				}
+				
+			}
+			
+			if (primers.size() == 1) {
+				
+				System.out.println("\nNingu ha arribat al Hangar, pero el que esta mes aprop és: " + primers.get(0));
+				
+			} else {
+				
+				System.out.println("\nNingu ha arribat al Hangar, pero el que esta mes aprop és: ");
+				
+				for (String aux : primers) {
+					
+					System.out.println(aux + ",");
+					
+				}
+				
+			}
+			
+		}
 	}
 
 	/*
@@ -186,6 +229,7 @@ public class Apocalipsis {
 
 	public Jugador[] obtenirJugadors() {
 
+		@SuppressWarnings("resource")
 		Scanner s = new Scanner(System.in);
 		ArrayList<Jugador> jugadors = new ArrayList<>();
 		boolean parar = false;

@@ -15,10 +15,10 @@ public class Carta {
 
 	// ATRIBUTS FINALS
 	
-	final static int numeroOpcions = 4;
-	final static int numCartes = 46;
-	final static int numCartes34 = 6;
-	final static int numCartes56 = 5;
+	final static int NUMEROOPCIONS = 4;
+	final static int NUMCARTES = 46;
+	final static int NUMCARTES34 = 1;
+	final static int NUMCARTES56 = 5;
 	
 	//ATRIBUTS CARTA
 	
@@ -56,7 +56,7 @@ public class Carta {
 			opcionsCarta = new tipusMoviment[3];
 
 			for (int j = 0; j < opcionsCarta.length; j++) {
-				opcionsCarta[j] = tipusMoviment.values()[rand.nextInt(numeroOpcions)];
+				opcionsCarta[j] = tipusMoviment.values()[rand.nextInt(NUMEROOPCIONS)];
 			}
 
 			if (i < 40) {
@@ -100,32 +100,48 @@ public class Carta {
 		resultat.append("\nNumero carta: " + this.numCarta + "\n");
 		resultat.append("==============\n");
 
+		if (isEspecial) {
+			resultat.append("|  Especial  |\n");
+		}
+		
 		for (int i = 0; i < opcions.length; i++) {
 			resultat.append("|" + (i+1) + ":");
 			
 			switch (opcions[i]) {
 
 				case SUMAVIDA:
-					resultat.append(" +1 Vida  |\n");
+					if (isEspecial) {
+						resultat.append(" +2 Vida  |\n");
+					} else {
+						resultat.append(" +1 Vida  |\n");
+					}
 					break;
 	
 				case RESTAVIDA:
-					resultat.append(" -1 Vida  |\n");
+					if (isEspecial) {
+						resultat.append(" -2 Vida  |\n");
+					} else {
+						resultat.append(" -1 Vida  |\n");
+					}
 					break;
 	
 				case MOUENDEVANT:
-					resultat.append("   --->   |\n");
+					if (isEspecial) {
+						resultat.append("   ->->   |\n");
+					} else {
+						resultat.append("   --->   |\n");
+					}
 					break;
 	
 				case MOUENRRERA:
-					resultat.append("   <---   |\n");
+					if (isEspecial) {
+						resultat.append("   <-<-   |\n");
+					} else {
+						resultat.append("   <---   |\n");
+					}
 					break;
 
 			}
-		}
-
-		if (isEspecial) {
-			resultat.append("|  Especial  |\n");
 		}
 
 		resultat.append("==============");

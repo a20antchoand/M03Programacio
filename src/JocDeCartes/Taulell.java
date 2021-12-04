@@ -2,7 +2,6 @@ package JocDeCartes;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Taulell {
 	
@@ -10,14 +9,16 @@ public class Taulell {
 	
 	public final int LONGITUD = 10; 
 	public final int CASELLAESPECIAL = 5;
-	public final int ESPECIAL = 2;
+	public final int VALORESPECIAL = 2;
+	
 	
 	// ATRIBUTS ESTATICS
 	
-	public static int idJugador = 1;
+	public static int idJugador = 0;
 	
 	// ATRIBUTS DE TAULELL
 	
+	public int numeroJugadors;
 	public ArrayList<Jugador> jugadors = new ArrayList<>();
 	public int[] primerJugador = new int[LONGITUD]; 
 	public List<Carta> baralla;
@@ -42,7 +43,7 @@ public class Taulell {
 			this.jugadors.add(jugador);
 		}
 		
-		
+		this.numeroJugadors = this.jugadors.size();
 		
 	}
 	
@@ -55,11 +56,11 @@ public class Taulell {
 		
 		List<Carta> maActual;
 		
-		if (jugadors.size() == 3 || jugadors.size() == 4) {	
+		if (numeroJugadors == 3 || numeroJugadors == 4) {	
 			
 			for (Jugador j : jugadors) {
 				maActual = new ArrayList<>();
-				for (int i = 0; i < 5; i++) {
+				for (int i = 0; i < Carta.NUMCARTES34; i++) {
 					
 					maActual.add(baralla.get(baralla.size()-1));
 					baralla.remove(baralla.size()-1);
@@ -71,11 +72,11 @@ public class Taulell {
 				
 			}
 			
-		} else if (jugadors.size() == 5 || jugadors.size() == 6) {
+		} else if (numeroJugadors == 5 || numeroJugadors == 6) {
 			
 			for (Jugador j : jugadors) {
 				maActual = new ArrayList<>();
-				for (int i = 0; i < 6; i++) {
+				for (int i = 0; i < Carta.NUMCARTES56; i++) {
 					
 					maActual.add(baralla.get(baralla.size()-1));
 					baralla.remove(baralla.size()-1);
@@ -85,10 +86,6 @@ public class Taulell {
 				j.setMa(maActual);
 				
 			}
-			
-		} else {
-			
-			throw new Exception ("Numero de jugadors incorrectes.");
 			
 		}
 	}
@@ -123,10 +120,9 @@ public class Taulell {
 	 * 
 	 * */
 	
-	public Carta validarCartaOpcio(Jugador j, int numCarta, int numOpcio) throws Exception {
+	public Carta validarCartaOpcio(Jugador j, int numCarta, int numOpcio) {
 		
 		boolean cartaValidar = false;
-		boolean opcioValidar = false;
 		Carta cartaValidada = null;
 		for (Carta carta : j.getMa()) {
 			
@@ -139,22 +135,11 @@ public class Taulell {
 		
 		if (cartaValidar) {
 			
-			if (numOpcio >= 0 && numOpcio < Carta.numeroOpcions) {
-				
-					opcioValidar = true;
-					
-			} else {
+			if (numOpcio < 0 || numOpcio > Carta.NUMEROOPCIONS) {
 				
 				System.out.println("Opcio no valida");
 				
 			}
-		}
-		
-	
-		if (!cartaValidar || !opcioValidar) {
-			
-			throw new Exception ("Alguna de les opcions no es valida.");
-			
 		}
 		
 		return cartaValidada;
@@ -187,7 +172,12 @@ public class Taulell {
 	
 	public void moureJugador (int numJugador, int moviments, Carta carta, Carta.tipusMoviment opcio) throws Exception {
 		
-		Jugador jugador = jugadors.get(numJugador);
+		Jugador jugador = null;
+		for (Jugador aux : jugadors) {
+			if (aux.getId() == numJugador) {
+				jugador = aux;
+			}
+		}
 		
 		if (moviments != 1 && moviments != -1) {
 			
@@ -197,19 +187,19 @@ public class Taulell {
 		
 		if (carta.isEspecial()) {
 			if (opcio == Carta.tipusMoviment.MOUENDEVANT) {
-				moviments = ESPECIAL;
+				moviments = VALORESPECIAL;
 			} else {
-				moviments = (-ESPECIAL);
+				moviments = (-VALORESPECIAL);
 			}
 		}
 		
 		int posActual = jugador.getPos();
 		int posFinal = posActual + moviments;
 				 
-		if (posFinal > 0 && posFinal < LONGITUD) {
+		if (posFinal >= 0 && posFinal <= LONGITUD) {
 			jugador.setPos(posFinal);
-		} else if (posFinal == LONGITUD) {
-			Apocalipsis.guanyador = jugador;
+		} else if (posFinal > LONGITUD) {
+			jugador.setPos(LONGITUD);
 		}
 		
 	}
@@ -221,7 +211,12 @@ public class Taulell {
 	
 	public void gestionarVides (int numJugador, int vides, Carta carta, Carta.tipusMoviment opcio) throws Exception {
 		
-		Jugador jugador = jugadors.get(numJugador);
+		Jugador jugador = null;
+		for (Jugador aux : jugadors) {
+			if (aux.getId() == numJugador) {
+				jugador = aux;
+			}
+		}
 		
 		if (vides != 1 && vides != -1) {
 			
@@ -231,9 +226,9 @@ public class Taulell {
 		
 		if (carta.isEspecial()) {
 			if (opcio == Carta.tipusMoviment.SUMAVIDA) {
-				vides = ESPECIAL;
+				vides = VALORESPECIAL;
 			} else {
-				vides = (-ESPECIAL);
+				vides = (-VALORESPECIAL);
 			}
 			
 		}
@@ -251,16 +246,19 @@ public class Taulell {
 	public boolean validarJugador (int numJugador) {
 		
 		boolean resultat = false;
-		
-		for (Jugador aux : jugadors) {
+		if (numJugador >= 0 && numJugador < this.numeroJugadors) {
 			
-			if (aux.getId() == numJugador) {
+			for (Jugador aux : jugadors) {
 				
-				resultat = true;
-				
+				if (aux.getId() == numJugador) {
+					
+					resultat = true;
+					
+				}
 			}
+		}else {
+			System.out.println("\nNumero de jugador invalid.");
 		}
-		
 		return resultat;
 		
 	}
@@ -271,10 +269,7 @@ public class Taulell {
 	 * */
 	
 	public boolean comprovarPosicio(Jugador jugador) {
-		
-		Scanner s = new Scanner(System.in);
-		int numJugador;
-		
+				
 		if (jugador.getPos() == CASELLAESPECIAL) {
 			return true;
 			
@@ -287,14 +282,23 @@ public class Taulell {
 	 * 
 	 * */
 	
-	public boolean guanyador() {
+	public Jugador guanyador() {
+		
+		Jugador guanyador = null;
+		
 		for (Jugador j : jugadors) {
-			if (j.getPos() == (LONGITUD-1)) {
-				System.out.println(j.getPos() + "/" + (LONGITUD-1));
-				return true;
+			
+			if (j.getPos() == (LONGITUD)) {
+
+				guanyador = j;
+				return guanyador;
+				
 			}
-		}
-		return false;
+			
+		} 
+		
+		return guanyador;
+		
 	}
 	
 	/*
@@ -304,35 +308,74 @@ public class Taulell {
 	
 	@Override
 	public String toString () {
+		
 		StringBuilder resultat = new StringBuilder();
 		resultat.append("\n");
+		
 		for (Jugador j : jugadors) {
-			resultat.append(j.getId() + " - NOM: " + j.getNom() + " -> VIDES: " + j.getVides() + "\n");
+			
+			resultat.append((j.getId() + 1) + " - NOM: " + j.getNom() + " -> VIDES: " + j.getVides() + "\n");
+			
 		}
+		
 		resultat.append("\n");
 		resultat.append("#");
-		for (int i = 0; i < LONGITUD; i++) {
-			resultat.append("===#");
+		
+		for (int i = 0; i < LONGITUD+1; i++) {
+			if (i != CASELLAESPECIAL) {
+				resultat.append("===#");
+			} else {
+				resultat.append("+++#");
+			}
+			
 		}
+		
 		resultat.append("\n");
+		
 		for (Jugador j : jugadors) {
+			
 			int posicioJugador =j.getPos();
 			resultat.append("#");
-			for (int i = 0; i < LONGITUD ; i++) {
+			
+			for (int i = 0; i < LONGITUD+1 ; i++) {
+				
 				if (i == posicioJugador) {
-					resultat.append(" " + j.getId() + " #");
+					
+					resultat.append(" " + (j.getId() + 1) + " #");
+					
 				} else {
+					
 					resultat.append("   #");
+					
 				}
+				
 			}
+			
 			resultat.append("\n");
+			
 		}		
+		
 		resultat.append("#");
-		for (int i = 0; i < LONGITUD; i++) {
-			resultat.append("===#");
+		
+		for (int i = 0; i < LONGITUD+1; i++) {
+			if (i != CASELLAESPECIAL) {
+				resultat.append("===#");
+			} else {
+				resultat.append("+++#");
+			}
+			
 		}
 
+		resultat.append("\n  ");
+		
+		for (int i = 0; i < LONGITUD+1; i++) {
+			
+			resultat.append(i + "   ");
+			
+		}
+		
 		return resultat.toString();
+		
 	}
 
 	

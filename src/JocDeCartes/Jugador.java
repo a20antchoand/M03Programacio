@@ -6,7 +6,7 @@ public class Jugador {
 
 	// ATRIBUT FINAL
 	
-	private final int vidasEstandard = 2;
+	private final int vidasEstandard = 5;
 	
 	// ATRIBUTS JUGADOR
 	
