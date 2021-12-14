@@ -106,6 +106,8 @@ public class Apocalipsis {
 
 							joc.taulell.mostrarMa(jugador.getId());
 
+							// VALIDEM LA CARTA I OPCIO
+							
 							do {
 
 								System.out.print("\nIndica el numero de carta: ");
@@ -122,6 +124,8 @@ public class Apocalipsis {
 
 							} while (cartaJugar == null);
 
+							//VALIDEM JUGADOR
+							
 							do {
 								System.out.print("Indica el numero del jugador: ");
 								numeroJugador = sInt.nextInt();
@@ -151,17 +155,17 @@ public class Apocalipsis {
 
 							// Eliminem jugador mort
 
-							Jugador eliminar = null;
+							Jugador enRevisio = null;
 							for (Jugador aux : jugadors) {
 								if (aux.getId() == numeroJugador) {
-									eliminar = aux;
+									enRevisio = aux;
 								}
 							}
 							
-							if (eliminar.getVides() <= 0) {
-								System.out.println("\nEl jugador " + eliminar.getNom()
+							if (enRevisio.getVides() <= 0) {
+								System.out.println("\nEl jugador " + enRevisio.getNom()
 										+ " ha mort.");
-								joc.taulell.jugadors.remove(eliminar);
+								joc.taulell.jugadors.remove(enRevisio);
 
 							}
 
@@ -205,11 +209,11 @@ public class Apocalipsis {
 			
 			if (primers.size() == 1) {
 				
-				System.out.println("\nNingu ha arribat al Hangar, pero el que esta mes aprop és: " + primers.get(0));
+				System.out.println("\nNingu ha arribat al Hangar, pero el que esta mes aprop ï¿½s: " + primers.get(0));
 				
 			} else {
 				
-				System.out.println("\nNingu ha arribat al Hangar, pero el que esta mes aprop és: ");
+				System.out.println("\nNingu ha arribat al Hangar, pero el que esta mes aprop ï¿½s: ");
 				
 				for (String aux : primers) {
 					

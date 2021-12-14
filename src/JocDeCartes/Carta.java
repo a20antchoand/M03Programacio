@@ -17,7 +17,7 @@ public class Carta {
 	
 	final static int NUMEROOPCIONS = 4;
 	final static int NUMCARTES = 46;
-	final static int NUMCARTES34 = 1;
+	final static int NUMCARTES34 = 6;
 	final static int NUMCARTES56 = 5;
 	
 	//ATRIBUTS CARTA

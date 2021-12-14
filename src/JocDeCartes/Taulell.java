@@ -52,7 +52,7 @@ public class Taulell {
 	 * 
 	 * */
 	
-	public void repartirMa(List<Carta> baralla) throws Exception {
+	public void repartirMa(List<Carta> baralla) {
 		
 		List<Carta> maActual;
 		
@@ -246,7 +246,7 @@ public class Taulell {
 	public boolean validarJugador (int numJugador) {
 		
 		boolean resultat = false;
-		if (numJugador >= 0 && numJugador < this.numeroJugadors) {
+		if (numJugador >= 0 && numJugador <= this.numeroJugadors) {
 			
 			for (Jugador aux : jugadors) {
 				
