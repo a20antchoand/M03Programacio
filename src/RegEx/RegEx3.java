@@ -15,7 +15,7 @@ public class RegEx3 {
 			int contador = 0;
 
 			System.out.print("Indica una paraula: ");
-			frase = s.nextLine();
+			frase = "HOLA MON CRUEL";
 
 			String expresioRegular = "\\S+\\s|\\S+$";
 
